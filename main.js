@@ -1,12 +1,13 @@
 var jp = require("jsonpath");
 module.exports.responseHooks = [
-  (context) => {
+  async (context) => {
     const jsonPath = context.request.getHeader("INSOMNIA-RESPONSE-JSON-PARSE");
     let errors = 0;
     if (jsonPath) {
       let response = {};
       try {
-        response = JSON.parse(context.response.getBody().toString());
+        //response = JSON.parse(context.response.getBody().toString());
+        response = JSON.parse((await context.response.getBody()).toString());
       } catch (error) {
         console.error("Error parsing response body", error);
         return;
